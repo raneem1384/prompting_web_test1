@@ -1,163 +1,152 @@
+import { motion } from 'framer-motion';
+import { Zap, Flame, Trophy, Play, Star, Target, Shield, Sword, Award, Rocket, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { Trophy, Flame, Star, BookOpen, Zap, ChevronRight, Lock, CheckCircle2, Clock } from 'lucide-react';
 import './Dashboard.css';
 
-const modules = [
-    { id: 1, title: 'Prompt Basics', desc: 'What is a prompt and why it matters', xp: 100, status: 'done', lessons: 4, icon: '🧠' },
-    { id: 2, title: 'Prompt Structure', desc: 'Role, Task, Context in action', xp: 120, status: 'active', lessons: 5, icon: '🏗️' },
-    { id: 3, title: 'Context & Constraints', desc: 'Guide AI with precision', xp: 150, status: 'locked', lessons: 5, icon: '🎯' },
-    { id: 4, title: 'Improving Responses', desc: 'Iterate and refine your prompts', xp: 180, status: 'locked', lessons: 6, icon: '⚡' },
-    { id: 5, title: 'Advanced Techniques', desc: 'Chain-of-thought, few-shot & more', xp: 200, status: 'locked', lessons: 7, icon: '🚀' },
+const quests = [
+    {
+        id: 1,
+        title: 'The Recipe Alchemist',
+        desc: 'Craft a prompt to transform random ingredients into a gourmet recipe.',
+        xp: 30,
+        difficulty: 'Easy',
+        icon: Sword
+    },
+    {
+        id: 2,
+        title: 'Persona Shifter',
+        desc: 'Give the AI 3 different roles to solve one math problem.',
+        xp: 50,
+        difficulty: 'Medium',
+        icon: Shield
+    },
 ];
 
-const badges = [
-    { emoji: '🧠', label: 'First Prompt', earned: true },
-    { emoji: '🔥', label: '3-Day Streak', earned: true },
-    { emoji: '🏗️', label: 'Builder', earned: false },
-    { emoji: '🎯', label: 'Sharpshooter', earned: false },
-    { emoji: '⭐', label: 'Star Learner', earned: false },
-    { emoji: '🚀', label: 'Promptonaut', earned: false },
-];
-
-const dailyChallenges = [
-    { emoji: '💡', title: 'Write a prompt for a recipe assistant', xp: 30, difficulty: 'Easy' },
-    { emoji: '🧪', title: 'Add a constraint to limit response length', xp: 50, difficulty: 'Medium' },
+const achievements = [
+    { id: 'a1', name: 'First Prompt', icon: Star, unlocked: true, desc: 'Your journey begins.' },
+    { id: 'a2', name: 'Context Master', icon: Target, unlocked: true, desc: 'Provide 5 highly detailed contexts.' },
+    { id: 'a3', name: 'Prompt Architect', icon: Award, unlocked: false, desc: 'Build a 5-step prompt chain.' },
+    { id: 'a4', name: 'Speed Demon', icon: Rocket, unlocked: false, desc: 'Finish a module in < 10 mins.' },
 ];
 
 export default function Dashboard() {
     const navigate = useNavigate();
-    const xp = 340;
-    const maxXp = 500;
-    const level = 4;
 
     return (
-        <div className="page dashboard animate-fadeIn">
-            {/* ── Welcome ── */}
-            <div className="dash-welcome">
-                <div>
-                    <h1 className="dash-title">Welcome back 👋</h1>
-                    <p style={{ color: 'var(--color-muted)', marginTop: 4 }}>Keep up the momentum — you're on a roll!</p>
-                </div>
-                <button className="btn btn-primary" onClick={() => navigate('/modules')}>
-                    Continue Learning <ChevronRight size={16} />
-                </button>
-            </div>
+        <div className="db-page-v3">
+            <div className="pixel-scanline" />
 
-            {/* ── Stats ── */}
-            <div className="dash-stats grid-4">
-                <div className="dash-stat-card card">
-                    <div className="dash-stat-icon" style={{ background: 'rgba(99,102,241,0.15)', color: '#6366f1' }}><Star size={20} /></div>
-                    <div className="dash-stat-val">{xp}</div>
-                    <div className="dash-stat-label">Total XP</div>
-                </div>
-                <div className="dash-stat-card card">
-                    <div className="dash-stat-icon" style={{ background: 'rgba(245,158,11,0.15)', color: '#f59e0b' }}><Flame size={20} /></div>
-                    <div className="dash-stat-val">3</div>
-                    <div className="dash-stat-label">Day Streak</div>
-                </div>
-                <div className="dash-stat-card card">
-                    <div className="dash-stat-icon" style={{ background: 'rgba(16,185,129,0.15)', color: '#10b981' }}><BookOpen size={20} /></div>
-                    <div className="dash-stat-val">12</div>
-                    <div className="dash-stat-label">Lessons Done</div>
-                </div>
-                <div className="dash-stat-card card">
-                    <div className="dash-stat-icon" style={{ background: 'rgba(6,182,212,0.15)', color: '#06b6d4' }}><Trophy size={20} /></div>
-                    <div className="dash-stat-val">2</div>
-                    <div className="dash-stat-label">Badges Earned</div>
-                </div>
-            </div>
-
-            {/* ── Level Progress ── */}
-            <div className="section">
-                <div className="dash-level-card card" style={{ padding: 24 }}>
-                    <div className="dash-level-header">
-                        <div className="dash-level-badge">
-                            <Zap size={16} />
-                            Level {level}
+            {/* 1. PLAYER STATUS */}
+            <motion.section
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="db-section db-player-status"
+            >
+                <div className="pixel-box pixel-grid-bg db-status-card">
+                    <div className="db-status-left">
+                        <div className="pixel-avatar-frame">
+                            <Star fill="var(--c-pixel-black)" color="var(--c-pixel-black)" size={24} />
+                            <div className="pixel-level-tag">LVL 3</div>
                         </div>
-                        <span style={{ color: 'var(--color-muted)', fontSize: '0.85rem' }}>
-                            {xp} / {maxXp} XP to Level {level + 1}
-                        </span>
+                        <div className="db-player-details">
+                            <h1 className="pixel-title" style={{ fontSize: '1rem' }}>Prompt Apprentice</h1>
+                            <div className="db-xp-bar-group">
+                                <div className="pixel-xp-text pixel-text" style={{ fontSize: '0.45rem', marginBottom: '4px' }}>
+                                    XP 1,240 / 2,000
+                                </div>
+                                <div className="pixel-progress-container" style={{ height: '8px', width: '200px' }}>
+                                    <motion.div
+                                        initial={{ width: 0 }}
+                                        animate={{ width: '62%' }}
+                                        className="pixel-progress-fill"
+                                        style={{ background: 'var(--c-pixel-yellow)' }}
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div className="progress-bar-track" style={{ marginTop: 14, height: 10 }}>
-                        <div className="progress-bar-fill" style={{ width: `${(xp / maxXp) * 100}%` }} />
+                    <button className="btn-pixel" onClick={() => navigate('/modules')}>
+                        <span className="pixel-text" style={{ fontSize: '0.45rem' }}>Continue Learning</span>
+                    </button>
+                </div>
+            </motion.section>
+
+            {/* 2. NEXT STEP (PRIMARY FOCUS) */}
+            <motion.section
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="db-section db-next-step"
+            >
+                <h2 className="pixel-subtitle" style={{ color: 'var(--c-pixel-red)', marginBottom: '16px' }}>Continue Your Journey</h2>
+                <div className="pixel-box db-next-card">
+                    <div className="db-next-info">
+                        <div className="db-next-header">
+                            <span className="pixel-text" style={{ color: 'var(--c-pixel-blue)', fontSize: '1.0rem' }}>CURRENT MODULE</span>
+                            <h3 className="pixel-title" style={{ fontSize: '1.5rem', margin: '8px 0' }}>The Art of Context</h3>
+                        </div>
+                        <p className="pixel-text" style={{ fontSize: '0.6rem', textTransform: 'none', lineHeight: '1.6', color: 'var(--c-pixel-gray)', maxWidth: '500px' }}>
+                            Master the technique of providing specific background information to get highly relevant AI responses.
+                        </p>
+                        <div className="db-next-footer" style={{ marginTop: '20px', display: 'flex', alignItems: 'center', gap: '24px' }}>
+                            <div className="pixel-text" style={{ fontSize: '0.5rem', color: 'var(--c-pixel-green)' }}>REWARD: +150 XP</div>
+                            <button className="btn-pixel" onClick={() => navigate('/modules')}>
+                                <span className="pixel-text" style={{ fontSize: '0.55rem' }}>Start Next Lesson</span> <ChevronRight size={16} />
+                            </button>
+                        </div>
                     </div>
-                    <div className="dash-level-desc">
-                        Complete more lessons and challenges to reach <strong>Level {level + 1}</strong>.
+                    <div className="db-next-visual">
+                        <Rocket size={60} color="var(--c-pixel-yellow)" className="float-pixel" />
                     </div>
                 </div>
-            </div>
+            </motion.section>
 
-            <div className="dash-columns">
-                {/* ── Learning Path ── */}
-                <div className="section dash-modules">
-                    <h2 className="dash-section-title"><BookOpen size={18} /> Learning Path</h2>
-                    <div className="modules-list">
-                        {modules.map((m) => (
-                            <div
-                                key={m.id}
-                                className={`module-row card ${m.status}`}
-                                onClick={() => m.status !== 'locked' && navigate(`/lesson/${m.id}`)}
-                                style={{ cursor: m.status === 'locked' ? 'default' : 'pointer' }}
+            <div className="db-secondary-grid">
+                {/* 3. SIDE QUESTS */}
+                <section className="db-section db-side-quests">
+                    <div className="db-section-header-compact">
+                        <h2 className="pixel-subtitle" style={{ fontSize: '0.6rem' }}>Side Quests</h2>
+                        <span className="pixel-text" style={{ fontSize: '0.4rem', color: 'var(--c-pixel-gray)' }}>Resets in 14h</span>
+                    </div>
+                    <div className="db-quest-stack">
+                        {quests.map((q, idx) => (
+                            <motion.div
+                                key={idx}
+                                whileHover={{ x: 4 }}
+                                className="pixel-box db-quest-item-compact"
                             >
-                                <div className="module-row-icon">{m.icon}</div>
-                                <div className="module-row-info">
-                                    <div className="module-row-title">{m.title}</div>
-                                    <div className="module-row-desc">{m.desc}</div>
-                                    <div className="module-row-meta">
-                                        <span className="tag">{m.lessons} lessons</span>
-                                        <span className="tag">+{m.xp} XP</span>
-                                    </div>
+                                <div className="db-quest-icon-mini" style={{ background: idx % 2 === 0 ? 'var(--c-pixel-yellow)' : 'var(--c-pixel-blue)' }}>
+                                    <q.icon size={16} />
                                 </div>
-                                <div className="module-row-status">
-                                    {m.status === 'done' && <CheckCircle2 size={20} color="var(--color-green)" />}
-                                    {m.status === 'active' && <Clock size={20} color="var(--color-primary)" />}
-                                    {m.status === 'locked' && <Lock size={20} color="var(--color-subtle)" />}
+                                <div className="db-quest-content-mini">
+                                    <h4 className="pixel-text" style={{ fontSize: '0.5rem' }}>{q.title}</h4>
+                                    <span className="pixel-text" style={{ fontSize: '0.4rem', color: 'var(--c-pixel-red)' }}>+{q.xp} XP</span>
                                 </div>
+                                <button className="pixel-btn-link">
+                                    <ChevronRight size={14} />
+                                </button>
+                            </motion.div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* 4. ACHIEVEMENTS */}
+                <section className="db-section db-achievements">
+                    <h2 className="pixel-subtitle" style={{ fontSize: '0.6rem', marginBottom: '16px' }}>Medals</h2>
+                    <div className="db-achievement-mini-grid">
+                        {achievements.map((a) => (
+                            <div key={a.id} className={`db-medal-mini ${a.unlocked ? 'unlocked' : 'locked'}`}>
+                                <a.icon size={16} />
+                                <div className="db-medal-tip pixel-box pixel-text">{a.name}</div>
                             </div>
                         ))}
                     </div>
-                </div>
 
-                <div className="dash-right-col">
-                    {/* ── Daily Challenges ── */}
-                    <div className="section">
-                        <h2 className="dash-section-title"><Flame size={18} /> Daily Challenges</h2>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                            {dailyChallenges.map(c => (
-                                <div key={c.title} className="challenge-card card" style={{ padding: 18 }}>
-                                    <div className="challenge-header">
-                                        <span className="challenge-emoji">{c.emoji}</span>
-                                        <div>
-                                            <div className="challenge-title">{c.title}</div>
-                                            <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
-                                                <span className="badge badge-amber">{c.difficulty}</span>
-                                                <span className="badge badge-primary">+{c.xp} XP</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button className="btn btn-secondary" style={{ marginTop: 12, width: '100%', justifyContent: 'center', fontSize: '0.85rem' }}
-                                        onClick={() => navigate('/playground')}>
-                                        Start Challenge
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
+                    <div className="db-streak-micro pixel-box">
+                        <Flame size={14} fill="var(--c-pixel-red)" color="var(--c-pixel-red)" />
+                        <span className="pixel-text" style={{ fontSize: '0.4rem' }}>3 DAY STREAK</span>
                     </div>
-
-                    {/* ── Badges ── */}
-                    <div className="section">
-                        <h2 className="dash-section-title"><Trophy size={18} /> Badges</h2>
-                        <div className="badges-grid">
-                            {badges.map(b => (
-                                <div key={b.label} className={`badge-item ${b.earned ? 'earned' : 'locked'}`}>
-                                    <span className="badge-emoji">{b.emoji}</span>
-                                    <span className="badge-label">{b.label}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
+                </section>
             </div>
         </div>
     );

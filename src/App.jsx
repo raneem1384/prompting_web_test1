@@ -15,14 +15,14 @@ export default function App() {
         <Route path="/*" element={
           <div style={{ display: 'flex', minHeight: '100vh' }}>
             <Navigation />
-            <main style={{ flex: 1, overflowX: 'hidden' }}>
+            <main style={{ flex: 1, overflowX: 'hidden', background: 'var(--c-pixel-white)', minHeight: '100vh', position: 'relative', paddingTop: '90px' }}>
               <Routes>
-                <Route path="/dashboard"     element={<Dashboard />} />
-                <Route path="/modules"       element={<Modules />} />
-                <Route path="/lesson/:id"    element={<Lesson />} />
-                <Route path="/builder"       element={<PromptBuilder />} />
-                <Route path="/playground"    element={<Playground />} />
-                <Route path="*"              element={<Navigate to="/dashboard" />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/modules" element={<Modules />} />
+                <Route path="/lesson/:id" element={<Lesson />} />
+                <Route path="/builder" element={<PromptBuilder />} />
+                <Route path="/playground" element={<Playground />} />
+                <Route path="*" element={<Navigate to="/dashboard" />} />
               </Routes>
             </main>
           </div>

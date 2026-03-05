@@ -1,47 +1,55 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, BookOpen, Wand2, FlaskConical, Zap, Flame } from 'lucide-react';
+import { LayoutDashboard, BookOpen, Wand2, FlaskConical, Zap, Flame, ChevronDown, User } from 'lucide-react';
 import './Navigation.css';
 
 const links = [
-    { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-    { to: '/modules', icon: BookOpen, label: 'Modules' },
-    { to: '/builder', icon: Wand2, label: 'Prompt Builder' },
-    { to: '/playground', icon: FlaskConical, label: 'Playground' },
+    { to: '/dashboard', label: 'main dashboard' },
+    { to: '/modules', label: 'modules v' },
+    { to: '/builder', label: 'prompt builder' },
+    { to: '/playground', label: 'playground' },
 ];
 
 export default function Navigation() {
     const navigate = useNavigate();
     return (
-        <aside className="nav-sidebar">
-            <div className="nav-logo" onClick={() => navigate('/')}>
-                <div className="nav-logo-mark">
-                    <Zap size={15} strokeWidth={2.5} />
+        <header className="nav-top-header">
+            <div className="nav-container">
+                {/* Logo Section */}
+                <div className="nav-logo-pixel" onClick={() => navigate('/')}>
+                    <div className="nav-logo-mark-pixel">
+                        <Zap size={20} fill="var(--c-pixel-yellow)" color="black" />
+                    </div>
+                    <span className="pixel-text logo-text">Promtra</span>
                 </div>
-                <span className="nav-logo-text">PromptIQ</span>
-            </div>
 
-            <nav className="nav-links">
-                {links.map(({ to, icon: Icon, label }) => (
-                    <NavLink
-                        key={to}
-                        to={to}
-                        className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
-                    >
-                        <Icon size={16} strokeWidth={isActive => isActive ? 2.5 : 1.8} />
-                        <span>{label}</span>
-                    </NavLink>
-                ))}
-            </nav>
+                {/* Main Navigation Links */}
+                <nav className="nav-pills-container">
+                    <div className="nav-pills-box pixel-box">
+                        {links.map(({ to, label }) => (
+                            <NavLink
+                                key={to}
+                                to={to}
+                                className={({ isActive }) => `nav-pill-link pixel-text ${isActive ? 'active' : ''}`}
+                            >
+                                {label}
+                            </NavLink>
+                        ))}
+                    </div>
+                </nav>
 
-            <div className="nav-streak">
-                <Flame size={14} className="nav-streak-icon" />
-                <div className="nav-streak-info">
-                    <span className="nav-streak-label">3-day streak</span>
-                    <div className="progress-track" style={{ marginTop: 5 }}>
-                        <div className="progress-fill" style={{ width: '60%' }} />
+                {/* User & Streak Info */}
+                <div className="nav-user-controls">
+                    <div className="nav-user-group pixel-text">
+                        <ChevronDown size={16} />
+                        <span className="user-id">tnew-187628521</span>
+                        <div className="user-avatar-mini">
+                            <User size={14} />
+                        </div>
                     </div>
                 </div>
             </div>
-        </aside>
+
+            {/* Optional bottom border or shadow can be handled in CSS */}
+        </header>
     );
 }

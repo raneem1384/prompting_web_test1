@@ -1,93 +1,121 @@
 import { useNavigate } from 'react-router-dom';
-import { BookOpen, Lock, CheckCircle2, Clock, ChevronRight, Star } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { BookOpen, Star, Zap, Lock, CheckCircle2, ChevronRight, PlayCircle, Trophy } from 'lucide-react';
 import './Modules.css';
 
 const modules = [
     {
-        id: 1, title: 'Prompt Basics', icon: '🧠',
-        desc: 'Understand what a prompt is, how AI models process them, and why wording matters.',
-        status: 'done', lessons: 4, xp: 100,
-        topics: ['What is a prompt?', 'How AI reads input', 'Common mistakes', 'Your first prompt'],
+        id: 1,
+        title: 'Prompt Basics',
+        desc: 'Master the fundamental structure of effective AI communication.',
+        lessons: 4, xp: 100, status: 'done',
+        color: '#10b981' // green
     },
     {
-        id: 2, title: 'Prompt Structure', icon: '🏗️',
-        desc: 'Learn the five core components of an effective prompt: Role, Task, Context, Format, and Constraints.',
-        status: 'active', lessons: 5, xp: 120,
-        topics: ['Role assignment', 'Task clarity', 'Adding context', 'Output formats', 'Setting constraints'],
+        id: 2,
+        title: 'The Role Technique',
+        desc: 'Learn how to give AI a specific identity to improve response quality.',
+        lessons: 5, xp: 150, status: 'active',
+        color: '#f59e0b' // amber
     },
     {
-        id: 3, title: 'Context & Constraints', icon: '🎯',
-        desc: 'Guide AI behavior with precise context. Limit, focus, and shape responses using constraints.',
-        status: 'locked', lessons: 5, xp: 150,
-        topics: ['Why context matters', 'Relevant vs. noise', 'Constraint types', 'Negative constraints', 'Applied practice'],
+        id: 3,
+        title: 'Context & Framing',
+        desc: 'Techniques for providing the right background info for complex tasks.',
+        lessons: 6, xp: 200, status: 'locked',
+        color: '#6366f1' // indigo
     },
     {
-        id: 4, title: 'Improving AI Responses', icon: '⚡',
-        desc: 'Learn to evaluate AI output, identify weaknesses, and iteratively improve your prompts.',
-        status: 'locked', lessons: 6, xp: 180,
-        topics: ['Reading AI responses', 'Evaluation rubrics', 'Iterative prompting', 'Follow-up prompts', 'Tone control', 'Formatting mastery'],
+        id: 4,
+        title: 'Output Formatting',
+        desc: 'Controlling how AI presents its answers (tables, JSON, lists).',
+        lessons: 3, xp: 120, status: 'locked',
+        color: '#ec4899' // pink
     },
     {
-        id: 5, title: 'Advanced Techniques', icon: '🚀',
-        desc: 'Dive into chain-of-thought, few-shot prompting, system messages, and meta-prompts.',
-        status: 'locked', lessons: 7, xp: 200,
-        topics: ['Chain-of-thought', 'Few-shot examples', 'Zero-shot vs few-shot', 'System messages', 'Meta-prompting', 'Persona stacking', 'Prompt testing'],
+        id: 5,
+        title: 'Advanced Iteration',
+        desc: 'Refining prompts and using multi-step chains for power users.',
+        lessons: 8, xp: 300, status: 'locked',
+        color: '#8b5cf6' // violet
     },
 ];
 
-const statusLabel = { done: 'Completed', active: 'In Progress', locked: 'Locked' };
-const statusBadge = { done: 'badge-green', active: 'badge-primary', locked: '' };
-
 export default function Modules() {
     const navigate = useNavigate();
+
     return (
-        <div className="page animate-fadeIn">
-            <div className="modules-header">
-                <div>
-                    <p className="section-label">Learning Path</p>
-                    <h1 className="modules-title">All Modules</h1>
-                    <p style={{ color: 'var(--color-muted)', marginTop: 6 }}>
-                        Complete modules in order to unlock advanced content and earn XP.
-                    </p>
+        <div className="modules-pixel-page">
+            <div className="pixel-scanline" />
+
+            <header className="pixel-page-header pixel-box pixel-grid-bg">
+                <div className="pixel-header-content">
+                    <span className="pixel-subtitle" style={{ color: 'var(--c-pixel-black)', fontWeight: 'bold' }}>WORLD 1-1</span>
+                    <h1 className="pixel-title" style={{ margin: 0 }}>Learning Path</h1>
                 </div>
-            </div>
-
-            <div className="modules-grid">
-                {modules.map((m) => (
-                    <div key={m.id} className={`module-card card ${m.status}`}>
-                        <div className="module-card-header">
-                            <div className="module-card-icon">{m.icon}</div>
-                            <div className="module-card-status">
-                                {m.status === 'done' && <span className={`badge ${statusBadge.done}`}><CheckCircle2 size={11} />{statusLabel.done}</span>}
-                                {m.status === 'active' && <span className={`badge ${statusBadge.active}`}><Clock size={11} />{statusLabel.active}</span>}
-                                {m.status === 'locked' && <span className="badge" style={{ background: 'var(--color-surface2)', color: 'var(--color-subtle)' }}><Lock size={11} />{statusLabel.locked}</span>}
-                            </div>
-                        </div>
-
-                        <h2 className="module-card-title">{m.title}</h2>
-                        <p className="module-card-desc">{m.desc}</p>
-
-                        <div className="module-topics">
-                            {m.topics.map(t => <span className="tag" key={t}>{t}</span>)}
-                        </div>
-
-                        <div className="module-card-footer">
-                            <div className="module-meta">
-                                <span className="module-meta-item"><BookOpen size={13} />{m.lessons} lessons</span>
-                                <span className="module-meta-item"><Star size={13} />+{m.xp} XP</span>
-                            </div>
-                            <button
-                                className={`btn ${m.status === 'locked' ? 'btn-ghost' : 'btn-primary'}`}
-                                style={{ fontSize: '0.85rem', padding: '9px 18px' }}
-                                onClick={() => m.status !== 'locked' && navigate(`/lesson/${m.id}`)}
-                                disabled={m.status === 'locked'}
-                            >
-                                {m.status === 'done' ? 'Review' : m.status === 'active' ? 'Continue' : 'Locked'}
-                                {m.status !== 'locked' && <ChevronRight size={14} />}
-                            </button>
-                        </div>
+                <div className="pixel-stats-bar pixel-box" style={{ padding: '0.5rem 1rem' }}>
+                    <div className="pixel-stat-item" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <Star size={18} fill="var(--c-pixel-yellow)" color="#000" />
+                        <span className="pixel-text">LVL 4</span>
                     </div>
-                ))}
+                </div>
+            </header>
+
+            <div className="pixel-modules-grid">
+                {modules.map((m, idx) => {
+                    return (
+                        <motion.div
+                            key={m.id}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: idx * 0.05 }}
+                        >
+                            <div
+                                className={`pixel-module-card pixel-box ${m.status}`}
+                                onClick={() => m.status !== 'locked' && navigate(`/lesson/${m.id}`)}
+                            >
+                                <div className="pixel-module-header">
+                                    <div className="pixel-module-icon-box" style={{
+                                        backgroundColor: m.status === 'done' ? 'var(--c-pixel-green)' :
+                                            m.status === 'locked' ? 'var(--c-pixel-light-gray)' :
+                                                'var(--c-pixel-yellow)'
+                                    }}>
+                                        {m.status === 'done' ? <CheckCircle2 size={24} color="#000" /> :
+                                            m.status === 'locked' ? <Lock size={24} color="#666" /> :
+                                                <PlayCircle size={24} color="#000" />}
+                                    </div>
+                                    <span className="pixel-text" style={{ fontSize: '0.45rem', opacity: 0.7 }}>MODULE 0{m.id}</span>
+                                </div>
+
+                                <h3 className="pixel-text" style={{ fontSize: '0.75rem', margin: '12px 0 8px' }}>{m.title}</h3>
+                                <p className="pixel-module-desc" style={{ fontSize: '0.8rem', color: 'var(--c-pixel-gray)', marginBottom: '16px', lineHeight: '1.4' }}>{m.desc}</p>
+
+                                <div className="pixel-module-footer" style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <span className="pixel-text" style={{ fontSize: '0.5rem', color: 'var(--c-pixel-red)' }}>+{m.xp} XP</span>
+                                    {m.status !== 'locked' ? (
+                                        <button className="pixel-btn-link pixel-text" style={{ color: 'var(--c-pixel-blue)', display: 'flex', alignItems: 'center' }}>
+                                            Play <ChevronRight size={14} />
+                                        </button>
+                                    ) : (
+                                        <span className="pixel-text" style={{ fontSize: '0.45rem', color: '#666' }}>LOCKED</span>
+                                    )}
+                                </div>
+                            </div>
+                        </motion.div>
+                    );
+                })}
+
+                {/* END GOAL CARD */}
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    className="pixel-module-card pixel-box mastery-card"
+                    style={{ background: 'var(--c-pixel-black)', color: 'var(--c-pixel-yellow)', border: '4px solid var(--c-pixel-yellow)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}
+                >
+                    <Trophy size={32} />
+                    <span className="pixel-text" style={{ fontSize: '0.7rem', marginTop: '12px' }}>World Mastery</span>
+                </motion.div>
             </div>
         </div>
     );

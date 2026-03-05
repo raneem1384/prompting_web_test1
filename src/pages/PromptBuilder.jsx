@@ -1,203 +1,229 @@
-import { useState } from 'react';
-import { Wand2, RefreshCw, Copy, Check } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDown, RotateCcw, Copy, Check, Info, Sparkles } from 'lucide-react';
 import './PromptBuilder.css';
 
-const components = {
-    role: {
-        label: 'Role',
-        emoji: '🎭',
-        color: '#6366f1',
-        desc: 'Who should the AI act as?',
-        options: [
-            'You are an expert software engineer',
-            'You are a creative writing coach',
-            'You are a professional data scientist',
-            'You are a friendly high school teacher',
-            'You are a senior marketing strategist',
-            'You are a nutritionist and fitness expert',
-            'You are an experienced UX designer',
-        ],
-    },
-    task: {
-        label: 'Task',
-        emoji: '📋',
-        color: '#06b6d4',
-        desc: 'What should the AI do?',
-        options: [
-            'Explain the concept of machine learning',
-            'Write a short story about overcoming failure',
-            'Create a beginner workout plan for 4 weeks',
-            'Summarize the key features of the given product',
-            'Generate 10 creative blog post title ideas',
-            'Write a professional email to reschedule a meeting',
-            'Analyze the strengths and weaknesses of this strategy',
-        ],
-    },
-    context: {
+const toolbarElements = [
+    {
+        id: 'context',
         label: 'Context',
-        emoji: '📖',
-        color: '#8b5cf6',
-        desc: 'What background information does the AI need?',
         options: [
-            'The audience is complete beginners with no technical background',
-            'This is for a startup pitch to non-technical investors',
-            'The reader is a 12-year-old student',
-            'The user has intermediate Python knowledge',
-            'This will be published on a professional LinkedIn article',
-            'The content is for a mobile app onboarding screen',
-            'The audience is senior-level professionals in finance',
-        ],
+            { label: 'Academic research', text: 'I am conducting academic research on...' },
+            { label: 'Business proposal', text: 'I am drafting a professional business proposal for...' },
+            { label: 'Social media post', text: 'I am creating content for a social media platform regarding...' },
+            { label: 'Technical documentation', text: 'I am writing technical documentation for...' },
+            { label: 'Creative project', text: 'I am working on a creative project focused on...' },
+        ]
     },
-    format: {
-        label: 'Output Format',
-        emoji: '📐',
-        color: '#10b981',
-        desc: 'How should the response be structured?',
+    {
+        id: 'persona',
+        label: 'Persona',
         options: [
-            'Format as a numbered step-by-step guide',
-            'Use clear bullet points with bold headers',
-            'Present as a table with relevant columns',
-            'Write in a conversational paragraph style',
-            'Use a Q&A format with short answers',
-            'Format as a professional report with sections',
-            'Provide JSON output with relevant key-value pairs',
-        ],
+            { label: 'Expert Teacher', text: 'Act as an expert teacher with 20 years of experience.' },
+            { label: 'Software Engineer', text: 'Act as a senior software engineer known for clean code.' },
+            { label: 'Marketing Strategist', text: 'Act as a high-level marketing strategist.' },
+            { label: 'Creative Writer', text: 'Act as an award-winning creative writer.' },
+            { label: 'Data Scientist', text: 'Act as a precision-oriented data scientist.' },
+        ]
     },
-    constraints: {
+    {
+        id: 'goal',
+        label: 'Goal',
+        options: [
+            { label: 'Summarize this text', text: 'Summarize the following text in a concise manner.' },
+            { label: 'Explain simply', text: 'Explain the following concept simply, as if to a beginner.' },
+            { label: 'Create a quiz', text: 'Generate a 5-question quiz based on this information.' },
+            { label: 'Generate ideas', text: 'Brainstorm 5 creative ideas for this project.' },
+            { label: 'List key points', text: 'Extract and list the key points from this document.' },
+            { label: 'Explain in detail', text: 'Provide a comprehensive and detailed explanation of...' },
+        ]
+    },
+    {
+        id: 'audience',
+        label: 'Audience',
+        options: [
+            { label: 'Complete Beginners', text: 'The target audience consists of complete beginners.' },
+            { label: 'Busy Executives', text: 'The audience is busy executives who need high-level insights.' },
+            { label: 'Technical Peers', text: 'The audience is a group of technical peers with deep knowledge.' },
+            { label: 'General Public', text: 'The content is intended for the general public.' },
+        ]
+    },
+    {
+        id: 'structure',
+        label: 'Structure',
+        options: [
+            { label: 'Bullet Points', text: 'Present the response in a clear bulleted list.' },
+            { label: 'Markdown Table', text: 'Use a Markdown table to organize the information.' },
+            { label: 'Step-by-Step', text: 'Provide a logical, step-by-step guide.' },
+            { label: 'Executive Summary', text: 'Format as an executive summary with key takeaways.' },
+        ]
+    },
+    {
+        id: 'constraints',
         label: 'Constraints',
-        emoji: '🚦',
-        color: '#f59e0b',
-        desc: 'What limits or rules should the AI follow?',
         options: [
-            'Keep the response under 200 words',
-            'Avoid using technical jargon or acronyms',
-            'Do not include any product recommendations',
-            'Use simple language suitable for a general audience',
-            'Focus only on free or open-source tools',
-            'Do not repeat information already mentioned',
-            'Keep a positive and encouraging tone throughout',
-        ],
+            { label: 'Under 100 words', text: 'Keep the entire response under 100 words.' },
+            { label: 'No Jargon', text: 'Strictly avoid all technical jargon and complex terms.' },
+            { label: 'Professional Tone', text: 'Maintain a strictly professional and formal tone.' },
+            { label: 'No Preamble', text: 'Start directly with the answer, no conversational filler.' },
+        ]
     },
-};
+    {
+        id: 'addons',
+        label: 'Add-ons',
+        options: [
+            { label: 'Include Examples', text: 'Provide 3 concrete examples to illustrate the points.' },
+            { label: 'Suggest resources', text: 'Recommend 2-3 additional resources for further reading.' },
+            { label: 'Anticipate FAQs', text: 'Address 3 potential follow-up questions or concerns.' },
+            { label: 'Cite sources', text: 'Ensure all claims are backed by credible citations.' },
+        ]
+    }
+];
 
 export default function PromptBuilder() {
-    const [selections, setSelections] = useState({ role: '', task: '', context: '', format: '', constraints: '' });
+    const [promptText, setPromptText] = useState('');
+    const [activeDropdown, setActiveDropdown] = useState(null);
     const [copied, setCopied] = useState(false);
+    const editorRef = useRef(null);
 
-    const select = (key, val) => setSelections(s => ({ ...s, [key]: s[key] === val ? '' : val }));
-    const reset = () => setSelections({ role: '', task: '', context: '', format: '', constraints: '' });
+    const handleInsert = (text) => {
+        const separator = promptText.length > 0 ? '\n\n' : '';
+        setPromptText(prev => prev + separator + text);
+        setActiveDropdown(null);
 
-    const buildPrompt = () => {
-        const parts = [
-            selections.role,
-            selections.task,
-            selections.context && `Context: ${selections.context}`,
-            selections.format,
-            selections.constraints && `Important: ${selections.constraints}`,
-        ].filter(Boolean);
-        return parts.join('\n\n');
+        // Focus editor after insertion
+        setTimeout(() => {
+            if (editorRef.current) {
+                editorRef.current.focus();
+                // Move cursor to end
+                editorRef.current.scrollTop = editorRef.current.scrollHeight;
+            }
+        }, 50);
     };
 
-    const prompt = buildPrompt();
-    const filled = Object.values(selections).filter(Boolean).length;
-    const pct = Math.round((filled / 5) * 100);
-
     const copyPrompt = () => {
-        navigator.clipboard.writeText(prompt);
+        navigator.clipboard.writeText(promptText);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
 
+    const toggleDropdown = (id) => {
+        setActiveDropdown(activeDropdown === id ? null : id);
+    };
+
     return (
-        <div className="page-wide animate-fadeIn">
-            <div className="builder-header">
-                <div>
-                    <p className="section-label">Interactive Tool</p>
-                    <h1 className="builder-title">Prompt Builder</h1>
-                    <p style={{ color: 'var(--color-muted)', marginTop: 6 }}>
-                        Select options for each component to build a structured, effective prompt.
-                    </p>
+        <div className="pb-page-v3">
+            <div className="pixel-scanline" />
+
+            <div className="pb-header pixel-box pixel-grid-bg">
+                <div className="pb-header-main">
+                    <span className="pixel-subtitle">Prompt writing assistant</span>
+                    <h1 className="pixel-title" style={{ margin: 0 }}>Prompt Builder</h1>
+                    <p className="pixel-text" style={{ fontSize: '0.5rem', color: 'var(--c-pixel-gray)', marginTop: '8px' }}>Fast, flexible, and practical writing tool.</p>
                 </div>
-                <button className="btn btn-secondary" onClick={reset}>
-                    <RefreshCw size={15} /> Reset
-                </button>
+                <div className="pb-header-actions">
+                    <button className="btn-pixel btn-pixel-secondary" onClick={() => setPromptText('')} style={{ padding: '8px 16px' }}>
+                        <RotateCcw size={14} /> <span className="pixel-text" style={{ fontSize: '0.5rem' }}>Clear</span>
+                    </button>
+                    <button
+                        className="btn-pixel"
+                        onClick={copyPrompt}
+                        disabled={!promptText}
+                        style={{ padding: '8px 16px' }}
+                    >
+                        {copied ? (
+                            <><Check size={14} /> <span className="pixel-text" style={{ fontSize: '0.5rem' }}>Copied!</span></>
+                        ) : (
+                            <><Copy size={14} /> <span className="pixel-text" style={{ fontSize: '0.5rem' }}>Copy</span></>
+                        )}
+                    </button>
+                </div>
             </div>
 
-            <div className="builder-layout">
-                {/* ── Component Selectors ── */}
-                <div className="builder-selectors">
-                    {Object.entries(components).map(([key, comp]) => (
-                        <div key={key} className="builder-section card">
-                            <div className="builder-section-header">
-                                <div className="builder-section-icon" style={{ background: `${comp.color}1a`, color: comp.color }}>
-                                    {comp.emoji}
-                                </div>
-                                <div>
-                                    <div className="builder-section-label" style={{ color: comp.color }}>{comp.label}</div>
-                                    <div className="builder-section-desc">{comp.desc}</div>
-                                </div>
-                                {selections[key] && (
-                                    <div className="builder-section-check"><Check size={14} color="var(--color-green)" /></div>
-                                )}
-                            </div>
-                            <div className="builder-options">
-                                {comp.options.map(opt => (
-                                    <button
-                                        key={opt}
-                                        className={`builder-option ${selections[key] === opt ? 'selected' : ''}`}
-                                        style={selections[key] === opt ? { borderColor: comp.color, background: `${comp.color}15`, color: comp.color } : {}}
-                                        onClick={() => select(key, opt)}
-                                    >
-                                        {opt}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    ))}
-                </div>
+            <div className="pb-toolbar pixel-box" style={{ padding: '12px', marginBottom: '24px', display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                {toolbarElements.map((el) => (
+                    <div key={el.id} className="pb-toolbar-item">
+                        <button
+                            className={`btn-pixel btn-pixel-secondary ${activeDropdown === el.id ? 'active' : ''}`}
+                            onClick={() => toggleDropdown(el.id)}
+                            style={{ padding: '6px 12px', fontSize: '0.5rem' }}
+                        >
+                            <span className="pixel-text" style={{ fontSize: '0.5rem' }}>{el.label}</span>
+                            <motion.span
+                                animate={{ rotate: activeDropdown === el.id ? 180 : 0 }}
+                                transition={{ duration: 0.2 }}
+                                style={{ display: 'flex' }}
+                            >
+                                <ChevronDown size={12} />
+                            </motion.span>
+                        </button>
 
-                {/* ── Live Preview ── */}
-                <div className="builder-preview-panel">
-                    <div className="builder-preview-sticky">
-                        <div className="builder-preview card">
-                            <div className="builder-preview-header">
-                                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                                    <Wand2 size={16} color="var(--color-primary)" />
-                                    <span className="builder-preview-title">Live Preview</span>
-                                </div>
-                                <button className="btn btn-ghost" style={{ padding: '6px 12px', fontSize: '0.82rem' }} onClick={copyPrompt}>
-                                    {copied ? <><Check size={13} /> Copied!</> : <><Copy size={13} /> Copy</>}
-                                </button>
-                            </div>
-
-                            <div className="builder-completeness">
-                                <span style={{ fontSize: '0.8rem', color: 'var(--color-muted)' }}>Completeness</span>
-                                <span style={{ fontSize: '0.8rem', fontWeight: 700, color: pct === 100 ? 'var(--color-green)' : 'var(--color-primary)' }}>{pct}%</span>
-                            </div>
-                            <div className="progress-bar-track" style={{ marginBottom: 20 }}>
-                                <div className="progress-bar-fill" style={{ width: `${pct}%`, background: pct === 100 ? 'var(--color-green)' : undefined }} />
-                            </div>
-
-                            {prompt ? (
-                                <div className="builder-prompt-text">{prompt}</div>
-                            ) : (
-                                <div className="builder-prompt-empty">
-                                    <span>✨</span>
-                                    <span>Select options from the left to build your prompt here in real time.</span>
-                                </div>
+                        <AnimatePresence>
+                            {activeDropdown === el.id && (
+                                <motion.div
+                                    className="pb-dropdown pixel-box"
+                                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                                    transition={{ duration: 0.1 }}
+                                    style={{ position: 'absolute', top: '110%', left: 0, zIndex: 100, minWidth: '200px', padding: '8px' }}
+                                >
+                                    <div className="pb-dropdown-list" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                        {el.options.map((opt, idx) => (
+                                            <button
+                                                key={idx}
+                                                className="pb-dropdown-opt pixel-text"
+                                                onClick={() => handleInsert(opt.text)}
+                                                style={{ textAlign: 'left', padding: '8px', fontSize: '0.45rem', border: '1px solid transparent' }}
+                                            >
+                                                {opt.label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </motion.div>
                             )}
+                        </AnimatePresence>
+                    </div>
+                ))}
+            </div>
 
-                            {/* Component breakdown */}
-                            {Object.entries(components).map(([key, comp]) => selections[key] && (
-                                <div key={key} className="builder-component-preview" style={{ borderColor: `${comp.color}30` }}>
-                                    <span className="builder-component-label" style={{ color: comp.color }}>{comp.emoji} {comp.label}</span>
-                                    <span className="builder-component-val">{selections[key]}</span>
-                                </div>
-                            ))}
-                        </div>
+            <main className="pb-editor-container pixel-box" style={{ padding: 0 }}>
+                <div className="pb-editor-header" style={{ padding: '12px 20px', borderBottom: '4px solid var(--c-pixel-black)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--c-pixel-light-gray)' }}>
+                    <div className="pixel-text" style={{ fontSize: '0.6rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <Sparkles size={16} color="var(--c-pixel-red)" />
+                        Prompt Editor
+                    </div>
+                    <div className="pixel-text" style={{ fontSize: '0.45rem', opacity: 0.7 }}>
+                        {promptText.trim().split(/\s+/).filter(Boolean).length} words
                     </div>
                 </div>
-            </div>
+
+                <textarea
+                    ref={editorRef}
+                    className="pb-textarea pixel-text"
+                    placeholder="Start typing your prompt or select elements from the toolbar above..."
+                    value={promptText}
+                    onChange={(e) => setPromptText(e.target.value)}
+                    style={{
+                        width: '100%',
+                        minHeight: '350px',
+                        padding: '24px',
+                        border: 'none',
+                        outline: 'none',
+                        fontSize: '0.8rem',
+                        lineHeight: '1.8',
+                        background: 'transparent',
+                        resize: 'vertical'
+                    }}
+                />
+
+                <div className="pb-editor-footer" style={{ padding: '12px 20px', borderTop: '4px solid var(--c-pixel-black)', background: 'var(--c-pixel-light-gray)' }}>
+                    <div className="pixel-text" style={{ fontSize: '0.45rem', display: 'flex', alignItems: 'center', gap: '8px', opacity: 0.7 }}>
+                        <Info size={14} />
+                        Tip: Select a fragment from the toolbar to instantly add it to your prompt.
+                    </div>
+                </div>
+            </main>
         </div>
     );
 }

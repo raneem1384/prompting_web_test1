@@ -1,221 +1,217 @@
-.dash-welcome {
+.db-page-v3 {
+    padding: 32px 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+.db-section {
+    width: 100%;
+}
+
+/* 1. PLAYER STATUS */
+.db-status-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 32px;
+}
+
+.db-status-left {
     display: flex;
     align-items: center;
+    gap: 24px;
+}
+
+.pixel-avatar-frame {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    background: var(--c-pixel-yellow);
+    border: 3px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pixel-level-tag {
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--c-pixel-red);
+    border: 2px solid black;
+    color: white;
+    font-family: var(--ff-pixel);
+    font-size: 0.4rem;
+    padding: 2px 6px;
+    white-space: nowrap;
+}
+
+/* 2. NEXT STEP (THE FOCUS) */
+.db-next-card {
+    display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
+    align-items: center;
+    padding: 40px;
+    background: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.db-next-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image:
+        linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.db-next-info {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+}
+
+.db-next-visual {
+    position: relative;
+    z-index: 1;
+    padding-left: 40px;
+}
+
+/* 3. SECONDARY GRID */
+.db-secondary-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 40px;
+}
+
+/* SIDE QUESTS (COMPACT) */
+.db-section-header-compact {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid black;
+}
+
+.db-quest-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.db-quest-item-compact {
+    display: flex;
+    align-items: center;
     gap: 16px;
-    margin-bottom: 32px;
+    padding: 12px 16px;
+    background: white;
+    cursor: pointer;
 }
 
-.dash-title {
-    font-family: var(--font-heading);
-    font-size: 1.8rem;
-    font-weight: 700;
+.db-quest-icon-mini {
+    width: 32px;
+    height: 32px;
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
-.dash-stats {
+.db-quest-content-mini {
+    flex: 1;
+}
+
+/* ACHIEVEMENTS (MINIMAL) */
+.db-achievement-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
     margin-bottom: 24px;
 }
 
-.dash-stat-card {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.dash-stat-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-md);
+.db-medal-mini {
+    position: relative;
+    aspect-ratio: 1;
+    border: 2px solid black;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 4px;
+    background: var(--c-pixel-light-gray);
 }
 
-.dash-stat-val {
-    font-family: var(--font-heading);
-    font-size: 1.8rem;
-    font-weight: 800;
+.db-medal-mini.unlocked {
+    background: white;
+    color: var(--c-pixel-yellow);
 }
 
-.dash-stat-label {
-    font-size: 0.82rem;
-    color: var(--color-muted);
+.db-medal-mini.locked {
+    opacity: 0.3;
 }
 
-.dash-level-header {
+.db-medal-tip {
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 6px 12px;
+    background: black;
+    color: white;
+    font-size: 0.4rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 10;
+}
+
+.db-medal-mini:hover .db-medal-tip {
+    opacity: 1;
+}
+
+.db-streak-micro {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px;
+    gap: 10px;
+    padding: 12px;
+    background: white;
 }
 
-.dash-level-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--color-primary-soft);
-    color: var(--color-primary);
-    padding: 6px 14px;
-    border-radius: var(--radius-full);
-    font-weight: 700;
-    font-size: 0.9rem;
-}
-
-.dash-level-desc {
-    font-size: 0.85rem;
-    color: var(--color-muted);
-    margin-top: 10px;
-}
-
-.dash-columns {
-    display: grid;
-    grid-template-columns: 1fr 340px;
-    gap: 24px;
-    align-items: start;
-}
-
-@media (max-width: 950px) {
-    .dash-columns {
+@media (max-width: 900px) {
+    .db-secondary-grid {
         grid-template-columns: 1fr;
     }
-}
 
-.dash-section-title {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-heading);
-    font-size: 1.05rem;
-    font-weight: 700;
-    margin-bottom: 16px;
-}
+    .db-next-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 30px 20px;
+    }
 
-.modules-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
+    .db-next-visual {
+        padding-left: 0;
+        margin-top: 32px;
+    }
 
-.module-row {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 16px 18px;
-    transition: all var(--transition);
-}
+    .db-status-card {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
 
-.module-row.done {
-    opacity: 0.75;
-}
-
-.module-row.locked {
-    opacity: 0.5;
-    pointer-events: none;
-}
-
-.module-row-icon {
-    font-size: 1.5rem;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--color-surface2);
-    border-radius: var(--radius-md);
-    flex-shrink: 0;
-}
-
-.module-row-info {
-    flex: 1;
-    min-width: 0;
-}
-
-.module-row-title {
-    font-weight: 600;
-    font-size: 0.95rem;
-    margin-bottom: 2px;
-}
-
-.module-row-desc {
-    font-size: 0.82rem;
-    color: var(--color-muted);
-    margin-bottom: 8px;
-}
-
-.module-row-meta {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-}
-
-.module-row-status {
-    flex-shrink: 0;
-}
-
-.challenge-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-}
-
-.challenge-emoji {
-    font-size: 1.6rem;
-    flex-shrink: 0;
-}
-
-.challenge-title {
-    font-weight: 600;
-    font-size: 0.9rem;
-    line-height: 1.4;
-}
-
-.badges-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-}
-
-.badge-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    padding: 14px 8px;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
-    transition: all var(--transition);
-}
-
-.badge-item.earned {
-    background: var(--color-primary-soft);
-    border-color: var(--color-primary);
-}
-
-.badge-item.locked {
-    opacity: 0.4;
-    filter: grayscale(1);
-}
-
-.badge-emoji {
-    font-size: 1.6rem;
-}
-
-.badge-label {
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: var(--color-muted);
-    text-align: center;
-}
-
-.badge-item.earned .badge-label {
-    color: var(--color-primary);
-}
-
-.dash-right-col {
-    display: flex;
-    flex-direction: column;
+    .db-status-left {
+        flex-direction: column;
+    }
 }

@@ -1,54 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Press+Start+2P&display=swap');
 
 /* ─── Design Tokens ─────────────────────────────────────── */
 :root {
-  /* Palette */
-  --c-bg: #F8FAFC;
-  --c-surface: #FFFFFF;
-  --c-surface2: #F1F5F9;
-  --c-border: #E2E8F0;
-  --c-border2: #CBD5E1;
-
-  --c-ink: #0F172A;
-  /* primary text */
-  --c-ink2: #334155;
-  /* secondary text */
-  --c-muted: #64748B;
-  --c-subtle: #94A3B8;
-  --c-faint: #E2E8F0;
-
-  --c-amber: #F59E0B;
-  --c-amber-bg: #FFFBEB;
-  --c-amber-border: #FDE68A;
-
-  --c-green: #22C55E;
-  --c-green-bg: #F0FDF4;
-  --c-green-border: #BBF7D0;
-
-  --c-red: #EF4444;
-  --c-red-bg: #FEF2F2;
-
-  --c-ink-inv: #FFFFFF;
-  /* text on dark */
-
-  /* Shadows */
-  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.05);
-  --shadow-sm: 0 1px 4px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);
-  --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.10), 0 1px 4px rgba(15, 23, 42, 0.05);
-  --shadow-lg: 0 12px 40px rgba(15, 23, 42, 0.12), 0 2px 8px rgba(15, 23, 42, 0.06);
-
-  /* Radius */
-  --r-sm: 6px;
-  --r-md: 10px;
-  --r-lg: 14px;
-  --r-xl: 20px;
-  --r-full: 9999px;
+  /* Palette - Retro Game Inspired */
+  --c-bg: #e2e8f0;
+  /* Light gray background */
+  --c-surface: #ffffff;
+  --c-pixel-yellow: #FFD700;
+  --c-pixel-red: #FF4B2B;
+  --c-pixel-blue: #00B4FF;
+  --c-pixel-green: #39FF14;
+  --c-pixel-black: #000000;
+  --c-pixel-white: #FFFFFF;
+  --c-pixel-gray: #334155;
+  --c-pixel-light-gray: #cbd5e1;
 
   /* Typography */
-  --font: 'DM Sans', system-ui, sans-serif;
+  --ff-pixel: 'Press Start 2P', cursive;
+  --ff-body: 'DM Sans', system-ui, sans-serif;
+
+  /* Blocky Borders & Shadows */
+  --pixel-border-width: 4px;
+  --pixel-border: var(--pixel-border-width) solid var(--c-pixel-black);
+  --pixel-shadow: 4px 4px 0px var(--c-pixel-black);
+  --pixel-shadow-hover: 6px 6px 0px var(--c-pixel-black);
+  --pixel-shadow-active: 2px 2px 0px var(--c-pixel-black);
 
   /* Transitions */
-  --t: 0.18s ease;
+  --t: 0.1s linear;
 }
 
 /* ─── Reset ─────────────────────────────────────────────── */
@@ -66,11 +45,12 @@ html {
 }
 
 body {
-  font-family: var(--font);
+  font-family: var(--ff-body);
   background: var(--c-bg);
-  color: var(--c-ink);
+  color: var(--c-pixel-black);
   line-height: 1.6;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 a {
@@ -86,196 +66,212 @@ button {
   font-size: inherit;
 }
 
-ul,
-ol {
-  list-style: none;
-}
-
-img {
-  max-width: 100%;
-  display: block;
-}
-
-/* ─── Scrollbar ─────────────────────────────────────────── */
+/* ─── Global Scrollbar ──────────────────────────────────── */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 12px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--c-pixel-black);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--c-border2);
-  border-radius: var(--r-full);
+  background: var(--c-pixel-yellow);
+  border: 3px solid var(--c-pixel-black);
 }
 
-/* ─── Buttons ───────────────────────────────────────────── */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 10px 20px;
-  border-radius: var(--r-full);
-  font-weight: 600;
-  font-size: 0.9rem;
-  letter-spacing: -0.01em;
-  transition: all var(--t);
-  white-space: nowrap;
-  line-height: 1;
+/* ─── Pixel-Retro Utilities ──────────────────────────────── */
+.pixel-box {
+  background: var(--c-pixel-white);
+  border: var(--pixel-border);
+  box-shadow: var(--pixel-shadow);
+  padding: 1.5rem;
+  position: relative;
 }
 
-.btn-primary {
-  background: var(--c-ink);
-  color: var(--c-ink-inv);
-  box-shadow: var(--shadow-sm);
+.pixel-box-dark {
+  background: var(--c-pixel-black);
+  border: var(--pixel-border-width) solid #222;
+  box-shadow: var(--pixel-shadow);
+  color: var(--c-pixel-white);
+  padding: 1.5rem;
 }
 
-.btn-primary:hover {
-  background: #1E293B;
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+.pixel-text {
+  font-family: var(--ff-pixel);
+  font-size: 0.65rem;
+  line-height: 1.5;
+  text-transform: uppercase;
 }
 
-.btn-amber {
-  background: var(--c-amber);
-  color: var(--c-ink);
-  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.25);
+.pixel-title {
+  font-family: var(--ff-pixel);
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
 }
 
-.btn-amber:hover {
-  background: #E8900A;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
-}
-
-.btn-outline {
-  background: transparent;
-  border: 1.5px solid var(--c-border2);
-  color: var(--c-ink2);
-}
-
-.btn-outline:hover {
-  border-color: var(--c-ink);
-  color: var(--c-ink);
-  background: var(--c-surface2);
-}
-
-.btn-ghost {
-  background: transparent;
-  color: var(--c-muted);
-  padding: 8px 14px;
-}
-
-.btn-ghost:hover {
-  color: var(--c-ink);
-  background: var(--c-surface2);
-}
-
-/* ─── Badges / Chips ────────────────────────────────────── */
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 3px 10px;
-  border-radius: var(--r-full);
+.pixel-subtitle {
+  font-family: var(--ff-pixel);
   font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  color: var(--c-pixel-gray);
+  margin-bottom: 0.5rem;
 }
 
-.chip-amber {
-  background: var(--c-amber-bg);
-  color: #92400E;
-  border: 1px solid var(--c-amber-border);
+.btn-pixel {
+  font-family: var(--ff-pixel);
+  font-size: 0.7rem;
+  padding: 12px 20px;
+  background: var(--c-pixel-yellow);
+  border: var(--pixel-border);
+  box-shadow: var(--pixel-shadow);
+  color: var(--c-pixel-black);
+  cursor: pointer;
+  transition: all 0.1s;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
 }
 
-.chip-green {
-  background: var(--c-green-bg);
-  color: #15803D;
-  border: 1px solid var(--c-green-border);
+.btn-pixel:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: var(--pixel-shadow-hover);
 }
 
-.chip-ink {
-  background: var(--c-ink);
-  color: #fff;
+.btn-pixel:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--pixel-shadow-active);
 }
 
-.chip-muted {
-  background: var(--c-surface2);
-  color: var(--c-muted);
-  border: 1px solid var(--c-border);
+.btn-pixel:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: var(--pixel-shadow);
+  opacity: 0.7;
 }
 
-/* ─── Cards ─────────────────────────────────────────────── */
-.card {
-  background: var(--c-surface);
-  border: 1px solid var(--c-border);
-  border-radius: var(--r-lg);
-  box-shadow: var(--shadow-xs);
+.btn-pixel-secondary {
+  background: var(--c-pixel-white);
 }
 
-/* ─── Progress Bar ──────────────────────────────────────── */
-.progress-track {
+.btn-pixel-danger {
+  background: var(--c-pixel-red);
+  color: var(--c-pixel-white);
+}
+
+/* ─── Progress Bar ────────────────────────────────────────── */
+.pixel-progress-container {
   width: 100%;
-  height: 6px;
-  background: var(--c-surface2);
-  border-radius: var(--r-full);
+  height: 24px;
+  background: var(--c-pixel-black);
+  border: 3px solid var(--c-pixel-black);
+  position: relative;
   overflow: hidden;
 }
 
-.progress-fill {
+.pixel-progress-fill {
   height: 100%;
-  border-radius: var(--r-full);
-  background: var(--c-amber);
-  transition: width 0.5s ease;
+  background: var(--c-pixel-green);
+  transition: width 0.3s ease-out;
 }
 
-/* ─── Section labels ────────────────────────────────────── */
-.eyebrow {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--c-amber);
+.pixel-progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--ff-pixel);
+  font-size: 0.5rem;
+  color: var(--c-pixel-white);
+  mix-blend-mode: difference;
+  z-index: 10;
 }
 
-/* ─── Tag pills ─────────────────────────────────────────── */
-.tag {
-  background: var(--c-surface2);
-  border: 1px solid var(--c-border);
-  border-radius: var(--r-sm);
-  padding: 3px 9px;
-  font-size: 0.78rem;
-  color: var(--c-muted);
+/* ─── Retro Animations & Effects ────────────────────────── */
+.pixel-scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom,
+      rgba(18, 16, 16, 0) 50%,
+      rgba(0, 0, 0, 0.05) 50%);
+  background-size: 100% 4px;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0.3;
 }
 
-/* ─── Layout ────────────────────────────────────────────── */
-.page {
-  padding: 36px 32px;
-  max-width: 1080px;
-  margin: 0 auto;
+.pixel-grid-bg {
+  background-image:
+    linear-gradient(rgba(0, 180, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 180, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: gridMove 20s linear infinite;
 }
 
-.page-wide {
-  padding: 36px 32px;
-  max-width: 1260px;
-  margin: 0 auto;
-}
+@keyframes gridMove {
+  0% {
+    background-position: 0 0;
+  }
 
-@media (max-width: 640px) {
-
-  .page,
-  .page-wide {
-    padding: 20px 16px;
+  100% {
+    background-position: 40px 40px;
   }
 }
 
-/* ─── Divider ───────────────────────────────────────────── */
-.divider {
-  width: 100%;
-  height: 1px;
-  background: var(--c-border);
+.float-pixel {
+  animation: floatPixel 3s ease-in-out infinite;
+}
+
+@keyframes floatPixel {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-10px) rotate(5deg);
+  }
+}
+
+.pixel-pulse-energy {
+  animation: pulseEnergy 2s ease-in-out infinite;
+}
+
+@keyframes pulseEnergy {
+
+  0%,
+  100% {
+    opacity: 0.8;
+    filter: brightness(1);
+  }
+
+  50% {
+    opacity: 1;
+    filter: brightness(1.5);
+  }
+}
+
+.flicker {
+  animation: flicker 0.1s infinite;
+}
+
+@keyframes flicker {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
 }
 
 /* ─── Animations ────────────────────────────────────────── */
