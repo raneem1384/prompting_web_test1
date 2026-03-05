@@ -1,0 +1,117 @@
+.nav-sidebar {
+    width: 220px;
+    min-height: 100vh;
+    background: var(--c-surface);
+    border-right: 1px solid var(--c-border);
+    display: flex;
+    flex-direction: column;
+    padding: 20px 14px;
+    position: sticky;
+    top: 0;
+    flex-shrink: 0;
+}
+
+/* Logo */
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 6px 8px;
+    margin-bottom: 28px;
+    cursor: pointer;
+    border-radius: var(--r-md);
+    transition: background var(--t);
+}
+
+.nav-logo:hover {
+    background: var(--c-surface2);
+}
+
+.nav-logo-mark {
+    width: 30px;
+    height: 30px;
+    background: var(--c-ink);
+    border-radius: var(--r-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--c-amber);
+    flex-shrink: 0;
+}
+
+.nav-logo-text {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--c-ink);
+}
+
+/* Links */
+.nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 10px;
+    border-radius: var(--r-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--c-muted);
+    transition: all var(--t);
+}
+
+.nav-link:hover {
+    background: var(--c-surface2);
+    color: var(--c-ink2);
+}
+
+.nav-link.active {
+    background: var(--c-ink);
+    color: #fff;
+    font-weight: 600;
+}
+
+.nav-link.active svg {
+    color: var(--c-amber);
+}
+
+/* Streak */
+.nav-streak {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 12px 10px;
+    background: var(--c-amber-bg);
+    border: 1px solid var(--c-amber-border);
+    border-radius: var(--r-md);
+    margin-top: 16px;
+}
+
+.nav-streak-icon {
+    color: var(--c-amber);
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.nav-streak-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.nav-streak-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #92400E;
+}
+
+@media (max-width: 768px) {
+    .nav-sidebar {
+        display: none;
+    }
+}
