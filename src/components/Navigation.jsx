@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { LayoutDashboard, BookOpen, Wand2, FlaskConical, Zap, Flame, ChevronDown, User, Globe, Bell, Search, Settings } from 'lucide-react';
 import './Navigation.css';
 const links = [
@@ -15,7 +16,19 @@ export default function Navigation() {
         <header className="nav-top-header">
             <div className="nav-container">
                 <div className="nav-logo-pixel" onClick={() => navigate('/')} style={{ display: 'flex', alignItems: 'center' }}>
-                    <img src="/logo-new.png" alt="Promptra Logo" className="nav-custom-logo" style={{ height: '36px', width: 'auto', objectFit: 'contain' }} />
+                    <motion.div
+                        animate={{
+                            y: [0, -3, 0],
+                            rotate: [0, 2, -2, 0]
+                        }}
+                        transition={{
+                            duration: 3,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    >
+                        <img src="/logo-new.png" alt="Promptra Logo" className="nav-custom-logo" style={{ height: '36px', width: 'auto', objectFit: 'contain' }} />
+                    </motion.div>
                     <span className="pixel-text logo-text" style={{ fontSize: '0.9rem', marginLeft: '12px', fontWeight: 'bold' }}>Promptra</span>
                 </div>
 

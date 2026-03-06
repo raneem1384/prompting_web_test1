@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, Flame, Trophy, Play, Star, Target, Shield, Sword, Award, Rocket, ChevronRight, Terminal, Sparkles } from 'lucide-react';
+import { Zap, Flame, Trophy, Play, Star, Target, Shield, Sword, Award, Rocket, ChevronRight, Terminal, Sparkles, Brain, BookOpen, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 
@@ -108,12 +108,12 @@ export default function Dashboard() {
                             <h1 className="pixel-title" style={{ fontSize: '1rem' }}>Raneem's Prompt Journey</h1>
                             <div className="db-xp-bar-group">
                                 <div className="pixel-xp-text pixel-text" style={{ fontSize: '0.45rem', marginBottom: '4px' }}>
-                                    XP 1,240 / 2,000
+                                    XP 500 / 2,000
                                 </div>
                                 <div className="pixel-progress-container" style={{ height: '8px', width: '200px' }}>
                                     <motion.div
                                         initial={{ width: 0 }}
-                                        animate={{ width: '62%' }}
+                                        animate={{ width: '25%' }}
                                         className="pixel-progress-fill"
                                         style={{ background: 'var(--c-pixel-yellow)' }}
                                     />
@@ -151,56 +151,41 @@ export default function Dashboard() {
                             </button>
                         </div>
                     </div>
-                    {/* Context Terminal Visual */}
-                    <div className="db-context-terminal">
-                        <div className="terminal-header">
-                            <div className="terminal-dot" style={{ background: '#ff5f56' }} />
-                            <div className="terminal-dot" style={{ background: '#ffbd2e' }} />
-                            <div className="terminal-dot" style={{ background: '#27c93f' }} />
-                        </div>
-                        <div className="terminal-content pixel-text">
-                            <span className="p-bracket">&gt;</span> Write a plan...
+                    {/* Simple Animated Icon Visual */}
+                    <div className="db-next-visual">
+                        <div className="db-simple-icon-viz">
+                            <motion.div
+                                className="icon-bg-glow"
+                                animate={{ scale: [0.8, 1.2, 0.8], opacity: [0.3, 0.6, 0.3] }}
+                                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                            />
 
-                            <AnimatePresence mode="wait">
-                                {hasContext ? (
-                                    <motion.div
-                                        key="with"
-                                        initial={{ opacity: 0, x: -10 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: 10 }}
-                                        className="context-layer"
-                                    >
-                                        <div className="line-item context-injected">
-                                            <span className="p-mark">+</span> CONTEXT: Q1, Eco-startup
-                                        </div>
-                                        <div className="line-item result-clear">
-                                            <Sparkles size={10} style={{ marginRight: 4 }} />
-                                            Precise &amp; Actionable!
-                                        </div>
-                                    </motion.div>
-                                ) : (
-                                    <motion.div
-                                        key="without"
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                        className="result-blurry"
-                                    >
-                                        Vague &amp; Generic...
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
+                            <motion.div
+                                className="icon-box-pixel"
+                                animate={{
+                                    y: [0, -10, 0],
+                                    rotate: [0, 5, -5, 0]
+                                }}
+                                transition={{
+                                    duration: 5,
+                                    repeat: Infinity,
+                                    ease: "easeInOut"
+                                }}
+                            >
+                                <BookOpen size={40} color="black" strokeWidth={2.5} />
 
-                        <div className="context-meter-wrap">
-                            <div className="pixel-text" style={{ fontSize: '0.3rem', marginBottom: '4px' }}>CONTEXT POWER</div>
-                            <div className="context-meter-bg">
                                 <motion.div
-                                    className="context-meter-fill"
-                                    animate={{ width: hasContext ? '100%' : '15%' }}
-                                    style={{ background: hasContext ? '#34d399' : '#f87171' }}
-                                />
-                            </div>
+                                    className="icon-sparkle-float"
+                                    animate={{
+                                        scale: [0.8, 1.2, 0.8],
+                                        opacity: [0.5, 1, 0.5],
+                                        rotate: [0, 90, 180, 270, 360]
+                                    }}
+                                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                                >
+                                    <Sparkles size={24} color="var(--c-pixel-red)" />
+                                </motion.div>
+                            </motion.div>
                         </div>
                     </div>
                 </div>

@@ -51,9 +51,34 @@ export default function Modules() {
             <div className="pixel-scanline" />
 
             <header className="pixel-page-header pixel-box pixel-grid-bg">
-                <div className="pixel-header-content">
-                    <span className="pixel-subtitle" style={{ color: 'var(--c-pixel-black)', fontWeight: 'bold' }}>WORLD 1-1</span>
-                    <h1 className="pixel-title" style={{ margin: 0 }}>The learning path </h1>
+                <div className="pixel-header-content" style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                    <motion.div
+                        animate={{
+                            scale: [1, 1.1, 1],
+                            rotate: [0, 10, -10, 0]
+                        }}
+                        transition={{
+                            duration: 4,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                        style={{
+                            width: '50px',
+                            height: '50px',
+                            background: 'var(--c-pixel-yellow)',
+                            border: '3px solid black',
+                            boxShadow: '4px 4px 0px black',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}
+                    >
+                        <Star size={24} fill="black" />
+                    </motion.div>
+                    <div>
+                        <span className="pixel-subtitle" style={{ color: 'var(--c-pixel-black)', fontWeight: 'bold' }}>WORLD 1-1</span>
+                        <h1 className="pixel-title" style={{ margin: 0 }}>Learning Path</h1>
+                    </div>
                 </div>
                 <div className="pixel-stats-bar pixel-box" style={{ padding: '0.5rem 1rem' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
