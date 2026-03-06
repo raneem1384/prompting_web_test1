@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { BookOpen, Star, Zap, Lock, CheckCircle2, ChevronRight, PlayCircle, Trophy } from 'lucide-react';
+import { Star, Lock, CheckCircle2, ChevronRight, PlayCircle, Trophy } from 'lucide-react';
 import './Modules.css';
 
 const modules = [
@@ -9,37 +9,39 @@ const modules = [
         title: 'Prompt Basics',
         desc: 'Master the fundamental structure of effective AI communication.',
         lessons: 4, xp: 100, status: 'done',
-        color: '#10b981' // green
+        color: '#10b981'
     },
     {
         id: 2,
         title: 'The Role Technique',
         desc: 'Learn how to give AI a specific identity to improve response quality.',
         lessons: 5, xp: 150, status: 'active',
-        color: '#f59e0b' // amber
+        color: '#f59e0b'
     },
     {
         id: 3,
         title: 'Context & Framing',
         desc: 'Techniques for providing the right background info for complex tasks.',
         lessons: 6, xp: 200, status: 'locked',
-        color: '#6366f1' // indigo
+        color: '#6366f1'
     },
     {
         id: 4,
         title: 'Output Formatting',
         desc: 'Controlling how AI presents its answers (tables, JSON, lists).',
         lessons: 3, xp: 120, status: 'locked',
-        color: '#ec4899' // pink
+        color: '#ec4899'
     },
     {
         id: 5,
         title: 'Advanced Iteration',
-        desc: 'Refining prompts and using multi-step chains for power users.',
+        desc: 'Refining prompts and multi-step chains for power users.',
         lessons: 8, xp: 300, status: 'locked',
-        color: '#8b5cf6' // violet
+        color: '#8b5cf6'
     },
 ];
+
+const allStops = [...modules, { id: 'trophy', status: 'trophy' }];
 
 export default function Modules() {
     const navigate = useNavigate();
@@ -54,68 +56,53 @@ export default function Modules() {
                     <h1 className="pixel-title" style={{ margin: 0 }}>Learning Path</h1>
                 </div>
                 <div className="pixel-stats-bar pixel-box" style={{ padding: '0.5rem 1rem' }}>
-                    <div className="pixel-stat-item" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                         <Star size={18} fill="var(--c-pixel-yellow)" color="#000" />
                         <span className="pixel-text">LVL 4</span>
                     </div>
                 </div>
             </header>
 
-            <div className="pixel-modules-grid">
-                {modules.map((m, idx) => {
-                    return (
-                        <motion.div
-                            key={m.id}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: idx * 0.05 }}
-                        >
-                            <div
-                                className={`pixel-module-card pixel-box ${m.status}`}
-                                onClick={() => m.status !== 'locked' && navigate(`/lesson/${m.id}`)}
+            <div className="modules-grid-container">
+                <div className="modules-path-grid">
+                    {allStops.map((m, idx) => {
+                        // Calculate grid position (3 columns)
+                        // This creates a "Snake/Zig-Zag" pattern
+                        const row = Math.floor(idx / 3);
+                        const col = row % 2 === 0 ? (idx % 3) : (2 - (idx % 3));
+
+                        return (
+                            <motion.div
+                                key={m.id}
+                                className={`modules-grid-item ${m.status}`}
+                                style={{ gridRow: row + 1, gridColumn: col + 1 }}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: idx * 0.05 }}
+                                onClick={() => m.status !== 'locked' && m.status !== 'trophy' && navigate(`/lesson/${m.id}`)}
                             >
-                                <div className="pixel-module-header">
-                                    <div className="pixel-module-icon-box" style={{
-                                        backgroundColor: m.status === 'done' ? 'var(--c-pixel-green)' :
-                                            m.status === 'locked' ? 'var(--c-pixel-light-gray)' :
-                                                'var(--c-pixel-yellow)'
-                                    }}>
-                                        {m.status === 'done' ? <CheckCircle2 size={24} color="#000" /> :
-                                            m.status === 'locked' ? <Lock size={24} color="#666" /> :
-                                                <PlayCircle size={24} color="#000" />}
+                                {/* The Connection Path (drawn behind) */}
+                                {idx < allStops.length - 1 && (
+                                    <div className={`path-connector next-${row % 2 === 0 ? 'right' : 'left'}`} />
+                                )}
+
+                                <div className="module-node-wrap">
+                                    <div className={`module-pixel-node ${m.status}`} style={{ background: m.status === 'done' ? m.color : m.status === 'active' ? 'var(--c-pixel-yellow)' : '#555' }}>
+                                        {m.status === 'done' && <CheckCircle2 size={18} color="#fff" />}
+                                        {m.status === 'active' && <PlayCircle size={18} color="#000" />}
+                                        {m.status === 'locked' && <Lock size={16} color="#888" />}
+                                        {m.status === 'trophy' && <Trophy size={20} color="var(--c-pixel-yellow)" />}
                                     </div>
-                                    <span className="pixel-text" style={{ fontSize: '0.45rem', opacity: 0.7 }}>MODULE 0{m.id}</span>
+
+                                    <div className="module-node-label pixel-text">
+                                        <div className="m-title">{m.title || 'World End'}</div>
+                                        <div className="m-xp">{m.xp ? `+${m.xp} XP` : 'GLORY'}</div>
+                                    </div>
                                 </div>
-
-                                <h3 className="pixel-text" style={{ fontSize: '0.75rem', margin: '12px 0 8px' }}>{m.title}</h3>
-                                <p className="pixel-module-desc" style={{ fontSize: '0.8rem', color: 'var(--c-pixel-gray)', marginBottom: '16px', lineHeight: '1.4' }}>{m.desc}</p>
-
-                                <div className="pixel-module-footer" style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <span className="pixel-text" style={{ fontSize: '0.5rem', color: 'var(--c-pixel-red)' }}>+{m.xp} XP</span>
-                                    {m.status !== 'locked' ? (
-                                        <button className="pixel-btn-link pixel-text" style={{ color: 'var(--c-pixel-blue)', display: 'flex', alignItems: 'center' }}>
-                                            Play <ChevronRight size={14} />
-                                        </button>
-                                    ) : (
-                                        <span className="pixel-text" style={{ fontSize: '0.45rem', color: '#666' }}>LOCKED</span>
-                                    )}
-                                </div>
-                            </div>
-                        </motion.div>
-                    );
-                })}
-
-                {/* END GOAL CARD */}
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    className="pixel-module-card pixel-box mastery-card"
-                    style={{ background: 'var(--c-pixel-black)', color: 'var(--c-pixel-yellow)', border: '4px solid var(--c-pixel-yellow)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}
-                >
-                    <Trophy size={32} />
-                    <span className="pixel-text" style={{ fontSize: '0.7rem', marginTop: '12px' }}>World Mastery</span>
-                </motion.div>
+                            </motion.div>
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );

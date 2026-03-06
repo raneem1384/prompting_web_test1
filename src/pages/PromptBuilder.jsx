@@ -127,27 +127,59 @@ export default function PromptBuilder() {
             <div className="pixel-scanline" />
 
             <div className="pb-header pixel-box pixel-grid-bg">
-                <div className="pb-header-main">
-                    <span className="pixel-subtitle">Prompt writing assistant</span>
-                    <h1 className="pixel-title" style={{ margin: 0 }}>Prompt Builder</h1>
-                    <p className="pixel-text" style={{ fontSize: '0.5rem', color: 'var(--c-pixel-gray)', marginTop: '8px' }}>Fast, flexible, and practical writing tool.</p>
+                {/* LEGO bricks decorative strip on top */}
+                <div className="pb-lego-strip">
+                    {[
+                        { color: '#facc15', delay: 0, size: 28, rot: 10 },
+                        { color: '#f87171', delay: 0.4, size: 22, rot: -12 },
+                        { color: '#60a5fa', delay: 0.8, size: 26, rot: 6 },
+                        { color: '#34d399', delay: 1.1, size: 20, rot: 18 },
+                        { color: '#a78bfa', delay: 0.55, size: 24, rot: -7 },
+                        { color: '#fb923c', delay: 0.9, size: 18, rot: 14 },
+                    ].map((b, i) => (
+                        <motion.div
+                            key={i}
+                            className="pb-lego-brick"
+                            style={{
+                                width: b.size,
+                                height: b.size * 0.65,
+                                background: b.color,
+                                rotate: b.rot,
+                                flexShrink: 0,
+                            }}
+                            animate={{ y: [0, -8, 0], rotate: [b.rot, b.rot + 6, b.rot] }}
+                            transition={{ duration: 2.4 + i * 0.25, repeat: Infinity, delay: b.delay, ease: 'easeInOut' }}
+                        >
+                            <span className="pb-lego-nub" style={{ left: '22%' }} />
+                            <span className="pb-lego-nub" style={{ left: '62%' }} />
+                        </motion.div>
+                    ))}
                 </div>
-                <div className="pb-header-actions">
-                    <button className="btn-pixel btn-pixel-secondary" onClick={() => setPromptText('')} style={{ padding: '8px 16px' }}>
-                        <RotateCcw size={14} /> <span className="pixel-text" style={{ fontSize: '0.5rem' }}>Clear</span>
-                    </button>
-                    <button
-                        className="btn-pixel"
-                        onClick={copyPrompt}
-                        disabled={!promptText}
-                        style={{ padding: '8px 16px' }}
-                    >
-                        {copied ? (
-                            <><Check size={14} /> <span className="pixel-text" style={{ fontSize: '0.5rem' }}>Copied!</span></>
-                        ) : (
-                            <><Copy size={14} /> <span className="pixel-text" style={{ fontSize: '0.5rem' }}>Copy</span></>
-                        )}
-                    </button>
+
+                {/* Header bottom row: title + action buttons */}
+                <div className="pb-header-bottom">
+                    <div className="pb-header-main">
+                        <span className="pixel-subtitle">Prompt writing assistant</span>
+                        <h1 className="pixel-title" style={{ margin: 0 }}>Prompt Builder</h1>
+                        <p className="pixel-text" style={{ fontSize: '0.5rem', color: 'var(--c-pixel-gray)', marginTop: '8px' }}>Fast, flexible, and practical writing tool.</p>
+                    </div>
+                    <div className="pb-header-actions">
+                        <button className="btn-pixel btn-pixel-secondary" onClick={() => setPromptText('')} style={{ padding: '8px 16px' }}>
+                            <RotateCcw size={14} /> <span className="pixel-text" style={{ fontSize: '0.5rem' }}>Clear</span>
+                        </button>
+                        <button
+                            className="btn-pixel"
+                            onClick={copyPrompt}
+                            disabled={!promptText}
+                            style={{ padding: '8px 16px' }}
+                        >
+                            {copied ? (
+                                <><Check size={14} /> <span className="pixel-text" style={{ fontSize: '0.5rem' }}>Copied!</span></>
+                            ) : (
+                                <><Copy size={14} /> <span className="pixel-text" style={{ fontSize: '0.5rem' }}>Copy</span></>
+                            )}
+                        </button>
+                    </div>
                 </div>
             </div>
 

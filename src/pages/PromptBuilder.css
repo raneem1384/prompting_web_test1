@@ -6,9 +6,27 @@
 
 .pb-header {
     display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+/* LEGO decorative top strip */
+.pb-lego-strip {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    padding: 8px 4px 4px;
+    border-bottom: 2px dashed rgba(0, 0, 0, 0.12);
+    min-height: 52px;
+}
+
+/* Header bottom row: title + buttons */
+.pb-header-bottom {
+    display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    gap: 16px;
 }
 
 .pb-header-main {
@@ -18,7 +36,31 @@
 .pb-header-actions {
     display: flex;
     gap: 12px;
+    flex-shrink: 0;
 }
+
+/* LEGO floating bricks — in-flow inside strip */
+.pb-lego-brick {
+    position: relative;
+    border: 2px solid rgba(0, 0, 0, 0.35);
+    border-radius: 2px;
+    pointer-events: none;
+}
+
+.pb-lego-nub {
+    position: absolute;
+    top: -5px;
+    width: 8px;
+    height: 5px;
+    background: inherit;
+    border: 2px solid rgba(0, 0, 0, 0.35);
+    border-radius: 2px 2px 0 0;
+    transform: translateX(-50%);
+}
+
+
+
+
 
 .pb-toolbar-item {
     position: relative;

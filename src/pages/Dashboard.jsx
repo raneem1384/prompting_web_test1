@@ -1,5 +1,6 @@
-import { motion } from 'framer-motion';
-import { Zap, Flame, Trophy, Play, Star, Target, Shield, Sword, Award, Rocket, ChevronRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Zap, Flame, Trophy, Play, Star, Target, Shield, Sword, Award, Rocket, ChevronRight, Terminal, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 
@@ -29,10 +30,67 @@ const achievements = [
 
 export default function Dashboard() {
     const navigate = useNavigate();
+    const [hasContext, setHasContext] = useState(false);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setHasContext(prev => !prev);
+        }, 3000);
+        return () => clearInterval(interval);
+    }, []);
 
     return (
         <div className="db-page-v3">
             <div className="pixel-scanline" />
+
+            {/* 0. MINI HERO */}
+            <motion.section
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="db-section db-mini-hero"
+            >
+                <div className="db-mini-hero-bg" />
+                <div className="db-mini-hero-content" style={{ display: 'flex', alignItems: 'flex-start', gap: '24px' }}>
+                    <div style={{ flex: 1 }}>
+                        <h2 className="pixel-title" style={{ fontSize: '1.5rem', lineHeight: '1.3', margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: '16px' }}>
+                            <div>
+                                Learn to communicate<br />
+                                with AI <span style={{ color: 'var(--c-pixel-red)' }}>effectively</span>.
+                            </div>
+
+                            {/* Decorative Animation */}
+                            <motion.div
+                                animate={{
+                                    y: [0, -8, 0],
+                                    rotate: [0, 5, -5, 0]
+                                }}
+                                transition={{
+                                    duration: 4,
+                                    repeat: Infinity,
+                                    ease: "easeInOut"
+                                }}
+                                style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: '40px',
+                                    height: '40px',
+                                    background: 'var(--c-pixel-yellow)',
+                                    border: '3px solid black',
+                                    boxShadow: '4px 4px 0px black'
+                                }}
+                            >
+                                <Zap size={20} fill="#000" />
+                            </motion.div>
+                        </h2>
+                        <p className="pixel-text" style={{ fontSize: '0.55rem', textTransform: 'none', lineHeight: '1.6', color: 'var(--c-pixel-gray)', maxWidth: '600px', margin: 0 }}>
+                            Most people use AI tools daily but never unlocked their full potential.
+                            Promptra teaches you prompt engineering through interactive lessons,
+                            hands-on practice, and real feedback.
+                        </p>
+                    </div>
+                </div>
+            </motion.section>
 
             {/* 1. PLAYER STATUS */}
             <motion.section
@@ -64,7 +122,7 @@ export default function Dashboard() {
                         </div>
                     </div>
                     <button className="btn-pixel" onClick={() => navigate('/modules')}>
-                        <span className="pixel-text" style={{ fontSize: '0.45rem' }}> MyJourney</span>
+                        <span className="pixel-text" style={{ fontSize: '0.45rem' }}> My Journey</span>
                     </button>
                 </div>
             </motion.section>
@@ -80,21 +138,70 @@ export default function Dashboard() {
                 <div className="pixel-box db-next-card">
                     <div className="db-next-info">
                         <div className="db-next-header">
-                            <span className="pixel-text" style={{ color: 'var(--c-pixel-blue)', fontSize: '1.0rem' }}>CURRENT MODULE</span>
-                            <h3 className="pixel-title" style={{ fontSize: '1.5rem', margin: '8px 0' }}>The Art of Context</h3>
+                            <span className="pixel-text" style={{ color: 'var(--c-pixel-yellow)', fontSize: '1.0rem' }}>CURRENT MODULE</span>
+                            <h3 className="pixel-title" style={{ fontSize: '1.5rem', margin: '8px 0', color: 'white' }}>The Art of Context</h3>
                         </div>
-                        <p className="pixel-text" style={{ fontSize: '0.6rem', textTransform: 'none', lineHeight: '1.6', color: 'var(--c-pixel-gray)', maxWidth: '500px' }}>
+                        <p className="pixel-text" style={{ fontSize: '0.6rem', textTransform: 'none', lineHeight: '1.6', color: '#e2e8f0', maxWidth: '500px' }}>
                             Master the technique of providing specific background information to get highly relevant AI responses.
                         </p>
                         <div className="db-next-footer" style={{ marginTop: '20px', display: 'flex', alignItems: 'center', gap: '24px' }}>
-                            <button className="btn-pixel" onClick={() => navigate('/modules')} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <button className="btn-pixel" onClick={() => navigate('/modules')} style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'var(--c-pixel-yellow)', color: 'black' }}>
                                 <span className="pixel-text" style={{ fontSize: '0.55rem' }}>Continue Learning</span>
                                 <ChevronRight size={16} />
                             </button>
                         </div>
                     </div>
-                    <div className="db-next-visual">
-                        <Rocket size={60} color="var(--c-pixel-yellow)" className="float-pixel" />
+                    {/* Context Terminal Visual */}
+                    <div className="db-context-terminal">
+                        <div className="terminal-header">
+                            <div className="terminal-dot" style={{ background: '#ff5f56' }} />
+                            <div className="terminal-dot" style={{ background: '#ffbd2e' }} />
+                            <div className="terminal-dot" style={{ background: '#27c93f' }} />
+                        </div>
+                        <div className="terminal-content pixel-text">
+                            <span className="p-bracket">&gt;</span> Write a plan...
+
+                            <AnimatePresence mode="wait">
+                                {hasContext ? (
+                                    <motion.div
+                                        key="with"
+                                        initial={{ opacity: 0, x: -10 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: 10 }}
+                                        className="context-layer"
+                                    >
+                                        <div className="line-item context-injected">
+                                            <span className="p-mark">+</span> CONTEXT: Q1, Eco-startup
+                                        </div>
+                                        <div className="line-item result-clear">
+                                            <Sparkles size={10} style={{ marginRight: 4 }} />
+                                            Precise &amp; Actionable!
+                                        </div>
+                                    </motion.div>
+                                ) : (
+                                    <motion.div
+                                        key="without"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        className="result-blurry"
+                                    >
+                                        Vague &amp; Generic...
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+
+                        <div className="context-meter-wrap">
+                            <div className="pixel-text" style={{ fontSize: '0.3rem', marginBottom: '4px' }}>CONTEXT POWER</div>
+                            <div className="context-meter-bg">
+                                <motion.div
+                                    className="context-meter-fill"
+                                    animate={{ width: hasContext ? '100%' : '15%' }}
+                                    style={{ background: hasContext ? '#34d399' : '#f87171' }}
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </motion.section>
