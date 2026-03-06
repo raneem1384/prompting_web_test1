@@ -87,18 +87,29 @@ export default function PromptBuilder() {
     const editorRef = useRef(null);
 
     const handleInsert = (text) => {
-        const separator = promptText.length > 0 ? '\n\n' : '';
-        setPromptText(prev => prev + separator + text);
+        const textarea = editorRef.current;
+        if (!textarea) return;
+
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+
+        const textBefore = promptText.substring(0, start);
+        const textAfter = promptText.substring(end);
+
+        // Add a space if there isn't one already at the insertion point
+        const separator = (textBefore.length > 0 && !textBefore.endsWith(' ') && !textBefore.endsWith('\n')) ? ' ' : '';
+
+        const newText = textBefore + separator + text + textAfter;
+
+        setPromptText(newText);
         setActiveDropdown(null);
 
-        // Focus editor after insertion
+        // Focus editor and restore cursor position after insertion
         setTimeout(() => {
-            if (editorRef.current) {
-                editorRef.current.focus();
-                // Move cursor to end
-                editorRef.current.scrollTop = editorRef.current.scrollHeight;
-            }
-        }, 50);
+            textarea.focus();
+            const newCursorPos = start + separator.length + text.length;
+            textarea.setSelectionRange(newCursorPos, newCursorPos);
+        }, 10);
     };
 
     const copyPrompt = () => {

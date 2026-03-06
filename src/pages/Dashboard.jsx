@@ -9,7 +9,6 @@ const quests = [
         title: 'The Recipe Alchemist',
         desc: 'Craft a prompt to transform random ingredients into a gourmet recipe.',
         xp: 30,
-        difficulty: 'Easy',
         icon: Sword
     },
     {
@@ -17,16 +16,15 @@ const quests = [
         title: 'Persona Shifter',
         desc: 'Give the AI 3 different roles to solve one math problem.',
         xp: 50,
-        difficulty: 'Medium',
         icon: Shield
     },
 ];
 
 const achievements = [
-    { id: 'a1', name: 'First Prompt', icon: Star, unlocked: true, desc: 'Your journey begins.' },
-    { id: 'a2', name: 'Context Master', icon: Target, unlocked: true, desc: 'Provide 5 highly detailed contexts.' },
-    { id: 'a3', name: 'Prompt Architect', icon: Award, unlocked: false, desc: 'Build a 5-step prompt chain.' },
-    { id: 'a4', name: 'Speed Demon', icon: Rocket, unlocked: false, desc: 'Finish a module in < 10 mins.' },
+    { id: 'a1', name: 'First Prompt', icon: Star, unlocked: true },
+    { id: 'a2', name: 'Context Master', icon: Target, unlocked: true },
+    { id: 'a3', name: 'Prompt Architect', icon: Award, unlocked: false },
+    { id: 'a4', name: 'Speed Demon', icon: Rocket, unlocked: false },
 ];
 
 export default function Dashboard() {
@@ -49,7 +47,7 @@ export default function Dashboard() {
                             <div className="pixel-level-tag">LVL 3</div>
                         </div>
                         <div className="db-player-details">
-                            <h1 className="pixel-title" style={{ fontSize: '1rem' }}>Prompt Apprentice</h1>
+                            <h1 className="pixel-title" style={{ fontSize: '1rem' }}>Raneem's Prompt Journey</h1>
                             <div className="db-xp-bar-group">
                                 <div className="pixel-xp-text pixel-text" style={{ fontSize: '0.45rem', marginBottom: '4px' }}>
                                     XP 1,240 / 2,000
@@ -66,7 +64,7 @@ export default function Dashboard() {
                         </div>
                     </div>
                     <button className="btn-pixel" onClick={() => navigate('/modules')}>
-                        <span className="pixel-text" style={{ fontSize: '0.45rem' }}>Continue Learning</span>
+                        <span className="pixel-text" style={{ fontSize: '0.45rem' }}> MyJourney</span>
                     </button>
                 </div>
             </motion.section>
@@ -89,9 +87,9 @@ export default function Dashboard() {
                             Master the technique of providing specific background information to get highly relevant AI responses.
                         </p>
                         <div className="db-next-footer" style={{ marginTop: '20px', display: 'flex', alignItems: 'center', gap: '24px' }}>
-                            <div className="pixel-text" style={{ fontSize: '0.5rem', color: 'var(--c-pixel-green)' }}>REWARD: +150 XP</div>
-                            <button className="btn-pixel" onClick={() => navigate('/modules')}>
-                                <span className="pixel-text" style={{ fontSize: '0.55rem' }}>Start Next Lesson</span> <ChevronRight size={16} />
+                            <button className="btn-pixel" onClick={() => navigate('/modules')} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <span className="pixel-text" style={{ fontSize: '0.55rem' }}>Continue Learning</span>
+                                <ChevronRight size={16} />
                             </button>
                         </div>
                     </div>
