@@ -20,7 +20,7 @@ const modules = [
     },
     {
         id: 3,
-        title: 'Context & Framing',
+        title: 'Context  &  Framing',
         desc: 'Techniques for providing the right background info for complex tasks.',
         lessons: 6, xp: 200, status: 'locked',
         color: '#6366f1'
@@ -53,12 +53,12 @@ export default function Modules() {
             <header className="pixel-page-header pixel-box pixel-grid-bg">
                 <div className="pixel-header-content">
                     <span className="pixel-subtitle" style={{ color: 'var(--c-pixel-black)', fontWeight: 'bold' }}>WORLD 1-1</span>
-                    <h1 className="pixel-title" style={{ margin: 0 }}>The Prompt Odyssey</h1>
+                    <h1 className="pixel-title" style={{ margin: 0 }}>The learning path </h1>
                 </div>
                 <div className="pixel-stats-bar pixel-box" style={{ padding: '0.5rem 1rem' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                         <Star size={18} fill="var(--c-pixel-yellow)" color="#000" />
-                        <span className="pixel-text">LEVEL PROGRESS: 62%</span>
+                        <span className="pixel-text">LEVEL PROGRESS: 25%</span>
                     </div>
                 </div>
             </header>
