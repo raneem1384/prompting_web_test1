@@ -66,10 +66,57 @@
     position: relative;
 }
 
-.btn-pixel.btn-pixel-secondary.active {
-    background: var(--c-pixel-yellow);
-    box-shadow: var(--pixel-shadow-active);
-    transform: translate(2px, 2px);
+/* LEGO Component Buttons */
+.pb-lego-component {
+    position: relative;
+    padding: 8px 16px;
+    border: 3px solid black;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--ff-pixel);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 4px 4px 0px black;
+    transition: transform 0.1s, box-shadow 0.1s;
+    margin-top: 6px;
+    /* Space for nubs */
+}
+
+.pb-lego-component .lego-nubs {
+    position: absolute;
+    top: -8px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 10px;
+    pointer-events: none;
+}
+
+.pb-lego-component .lego-nub {
+    width: 10px;
+    height: 8px;
+    background: var(--btn-bg);
+    border: 3px solid black;
+    border-bottom: none;
+    border-radius: 2px 2px 0 0;
+}
+
+.pb-lego-component:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 5px 5px 0px black;
+}
+
+.pb-lego-component:active,
+.pb-lego-component.active {
+    transform: translate(3px, 3px);
+    box-shadow: 1px 1px 0px black;
+}
+
+.pb-lego-component.active {
+    outline: 2px dashed black;
+    outline-offset: 4px;
 }
 
 .pb-dropdown-opt:hover {

@@ -184,50 +184,62 @@ export default function PromptBuilder() {
             </div>
 
             <div className="pb-toolbar pixel-box" style={{ padding: '12px', marginBottom: '24px', display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                {toolbarElements.map((el) => (
-                    <div key={el.id} className="pb-toolbar-item">
-                        <button
-                            className={`btn-pixel btn-pixel-secondary ${activeDropdown === el.id ? 'active' : ''}`}
-                            onClick={() => toggleDropdown(el.id)}
-                            style={{ padding: '6px 12px', fontSize: '0.5rem' }}
-                        >
-                            <span className="pixel-text" style={{ fontSize: '0.5rem' }}>{el.label}</span>
-                            <motion.span
-                                animate={{ rotate: activeDropdown === el.id ? 180 : 0 }}
-                                transition={{ duration: 0.2 }}
-                                style={{ display: 'flex' }}
-                            >
-                                <ChevronDown size={12} />
-                            </motion.span>
-                        </button>
+                {toolbarElements.map((el, idx) => {
+                    const colors = ['#facc15', '#f87171', '#60a5fa', '#34d399', '#a78bfa', '#fb923c', '#ec4899'];
+                    const bgColor = colors[idx % colors.length];
 
-                        <AnimatePresence>
-                            {activeDropdown === el.id && (
-                                <motion.div
-                                    className="pb-dropdown pixel-box"
-                                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                                    transition={{ duration: 0.1 }}
-                                    style={{ position: 'absolute', top: '110%', left: 0, zIndex: 100, minWidth: '200px', padding: '8px' }}
+                    return (
+                        <div key={el.id} className="pb-toolbar-item">
+                            <button
+                                className={`pb-lego-component ${activeDropdown === el.id ? 'active' : ''}`}
+                                onClick={() => toggleDropdown(el.id)}
+                                style={{
+                                    background: bgColor,
+                                    '--btn-bg': bgColor
+                                }}
+                            >
+                                <div className="lego-nubs">
+                                    <span className="lego-nub" />
+                                    <span className="lego-nub" />
+                                </div>
+                                <span className="pixel-text" style={{ fontSize: '0.5rem', color: 'black' }}>{el.label}</span>
+                                <motion.span
+                                    animate={{ rotate: activeDropdown === el.id ? 180 : 0 }}
+                                    transition={{ duration: 0.2 }}
+                                    style={{ display: 'flex', color: 'black' }}
                                 >
-                                    <div className="pb-dropdown-list" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                                        {el.options.map((opt, idx) => (
-                                            <button
-                                                key={idx}
-                                                className="pb-dropdown-opt pixel-text"
-                                                onClick={() => handleInsert(opt.text)}
-                                                style={{ textAlign: 'left', padding: '8px', fontSize: '0.45rem', border: '1px solid transparent' }}
-                                            >
-                                                {opt.label}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
-                ))}
+                                    <ChevronDown size={12} />
+                                </motion.span>
+                            </button>
+
+                            <AnimatePresence>
+                                {activeDropdown === el.id && (
+                                    <motion.div
+                                        className="pb-dropdown pixel-box"
+                                        initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                                        transition={{ duration: 0.1 }}
+                                        style={{ position: 'absolute', top: '110%', left: 0, zIndex: 100, minWidth: '200px', padding: '8px' }}
+                                    >
+                                        <div className="pb-dropdown-list" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                            {el.options.map((opt, idx) => (
+                                                <button
+                                                    key={idx}
+                                                    className="pb-dropdown-opt pixel-text"
+                                                    onClick={() => handleInsert(opt.text)}
+                                                    style={{ textAlign: 'left', padding: '8px', fontSize: '0.45rem', border: '1px solid transparent' }}
+                                                >
+                                                    {opt.label}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    );
+                })}
             </div>
 
             <main className="pb-editor-container pixel-box" style={{ padding: 0 }}>
