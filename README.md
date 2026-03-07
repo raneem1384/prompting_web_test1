@@ -1,4 +1,4 @@
-##🎮 Promptra — Gamified Prompt Engineering Platform:
+## 🎮 Promptra — Gamified Prompt Engineering Platform:
 
 - Promptra is a gamified learning platform that helps users understand and practice Prompt Engineering through an interactive, game-like experience.
 - Instead of learning from long tutorials or scattered resources, Promptra teaches prompting through structured modules, hands-on practice, and a modular prompt builder.
@@ -17,7 +17,7 @@ Build prompts using structured components such as role, task, context, and const
 Practice writing prompts and experiment with different prompt structures.
 
 
-##Tech Stack:
+## Tech Stack:
 
 React
 Vite
