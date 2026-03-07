@@ -19,8 +19,8 @@ Practice writing prompts and experiment with different prompt structures.
 
 ## Tech Stack:
 
-React
-Vite
-Framer Motion
-Lucide React
-Vanilla CSS
+- React
+- Vite
+- Framer Motion
+- Lucide React
+- Vanilla CSS
